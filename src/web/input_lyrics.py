@@ -1,6 +1,6 @@
 import streamlit as st
 
-
+# Title
 st.markdown("""
     <h1 style='text-align: center;'>LyrIAcs</h1>
     <p style='text-align: center;'>Input your lyrics</p>
