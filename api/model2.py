@@ -1,3 +1,3 @@
 
-def predict_emotion(text):
+def predict_emotion(lyrics):
     return "This is sentiment analyzer!"
