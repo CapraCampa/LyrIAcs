@@ -1,3 +1,3 @@
 
-def predict_genre(text):
+def predict_genre(lyrics):
     return "This is genre predictor!"
