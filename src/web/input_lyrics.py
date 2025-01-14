@@ -8,7 +8,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Text area
-#TODO: max_chars
 user_lyrics = st.text_area(
     label="input_lyrics",
     height=200,
@@ -31,7 +30,7 @@ if st.button("Submit"):
 
             # Call the API for sentiment analysis
             response = requests.post(
-                "http://127.0.0.1:8080/predict_emotion_endpoint", 
+                "http://127.0.0.1:8081/predict_emotion_endpoint", 
                 json={"text": user_lyrics}
             )
 
