@@ -1,0 +1,78 @@
+#install.packages("tm")
+#install.packages("SnowballC")
+#install.packages("randomForest")
+#install.packages("caret")
+#install.packages("kagglehub")
+library(tm)
+library(SnowballC)
+library(randomForest)
+library(caret)
+
+setwd("C:/Users/Andrea/Desktop")
+
+# Load data
+data <- read.csv("train.csv")
+data = data[data$Language=="en",]
+
+# Remove nas
+data <- na.omit(data)
+summary(data)
+
+# Crete corpus
+corpus <- Corpus(VectorSource(data$Lyrics))
+
+# text cleaning
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, removeNumbers)
+corpus <- tm_map(corpus, removeWords, stopwords("en"))
+corpus <- tm_map(corpus, stemDocument)
+corpus <- tm_map(corpus, stripWhitespace)
+
+# Document term matrix creation
+dtm <- DocumentTermMatrix(corpus)
+
+# fcatorization of genre
+trainLabels = as.factor(data$Genre)
+
+# remove rare terms, it became a 270 gb matrix othrwise
+dtm <- removeSparseTerms(dtm, 0.99)
+
+#Save and load data
+#saveRDS(dtm,"DTM.rds")
+#dtm = readRDS("DTM.rds")
+
+# transform in r-Large_matrix for training
+trainData <- as.matrix(dtm)
+
+# train the model
+model <- randomForest(trainData, trainLabels, ntree = 100)
+
+################## Testing
+
+# load test
+new_data <- read.csv("test.csv")
+
+new_data <- na.omit(new_data)
+
+new_corpus <- Corpus(VectorSource(new_data$Lyrics))
+new_corpus <- tm_map(new_corpus, content_transformer(tolower))
+new_corpus <- tm_map(new_corpus, removePunctuation)
+new_corpus <- tm_map(new_corpus, removeNumbers)
+new_corpus <- tm_map(new_corpus, removeWords, stopwords("en"))
+new_corpus <- tm_map(new_corpus, stemDocument)
+new_corpus <- tm_map(new_corpus, stripWhitespace)
+
+new_dtm <- DocumentTermMatrix(new_corpus)
+
+testData <- as.matrix(new_dtm)
+
+# Model evaluation
+predictions <- predict(model, testData)
+confusionMatrix(predictions, as.factor(new_data$Genre))
+
+#Save and load
+#save(model, file = "rf_model.RData")
+#model = load("random_forest_model.RData")
+
+
