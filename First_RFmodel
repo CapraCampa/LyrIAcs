@@ -2,7 +2,6 @@
 #install.packages("SnowballC")
 #install.packages("randomForest")
 #install.packages("caret")
-#install.packages("kagglehub")
 library(tm)
 library(SnowballC)
 library(randomForest)
@@ -73,6 +72,6 @@ confusionMatrix(predictions, as.factor(new_data$Genre))
 
 #Save and load
 #save(model, file = "rf_model.RData")
-#model = load("random_forest_model.RData")
+#model = load("rf_model.RData")
 
 
