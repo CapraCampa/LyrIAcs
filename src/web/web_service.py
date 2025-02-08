@@ -15,7 +15,7 @@ pg = st.navigation([st.Page("input_lyrics.py"), st.Page("feature_selection.py"),
 def load_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-load_css("styles.css")
+load_css("src/web/styles.css")
 
 
 pg.run()
