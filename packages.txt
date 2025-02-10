@@ -1,7 +1,2 @@
 r-base
 r-base-dev
-r-cran-tm
-r-cran-SnowballC
-r-cran-randomForest
-r-cran-caret
-
