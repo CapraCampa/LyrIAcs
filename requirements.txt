@@ -3,6 +3,8 @@ annotated-types==0.7.0
 anyio==4.8.0
 asyncio==3.4.3
 attrs==25.1.0
+azure-core==1.32.0
+azure-storage-blob==12.24.1
 betterproto==2.0.0b6
 blinker==1.9.0
 cachetools==5.5.1
@@ -26,6 +28,7 @@ hyperframe==6.1.0
 id==1.5.0
 idna==3.10
 in-toto-attestation==0.9.3
+isodate==0.7.2
 Jinja2==3.1.5
 joblib==1.4.2
 jsonschema==4.23.0
