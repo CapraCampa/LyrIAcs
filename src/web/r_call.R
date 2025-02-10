@@ -1,3 +1,7 @@
+install.packages("SnowballC", repos = "http://cran.us.r-project.org")
+install.packages("tm", repos = "http://cran.us.r-project.org")
+install.packages("randomForest", repos = "http://cran.us.r-project.org")
+install.packages("caret", repos = "http://cran.us.r-project.org")
 library(tm)
 library(SnowballC)
 library(randomForest)
