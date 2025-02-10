@@ -1,27 +1,19 @@
 import streamlit as st
+import subprocess
 
-import os
+#import os
 # THIS LINE CHANGES BASED ON YOUR R VERSION/LOCATION
-os.environ["R_HOME"] = r"C:\Program Files\R\R-4.4.1"
-os.environ["R_LIBS_USER"]= r"C:/Users/desta/AppData/Local/R/win-library/4.4"
-from rpy2.robjects import r, pandas2ri
-from rpy2.robjects.packages import importr
-import rpy2.robjects.packages as rpackages
+#os.environ["R_HOME"] = r"C:\Program Files\R\R-4.4.1"
+#os.environ["R_LIBS_USER"]= r"C:/Users/desta/AppData/Local/R/win-library/4.4"
+#from rpy2.robjects import r, pandas2ri
+#from rpy2.robjects.packages import importr
+#import rpy2.robjects.packages as rpackages
 import warnings
 import pandas as pd
 
-# Importa le librerie necessarie
-#tm = importr('tm')
-#SnowballC = importr('SnowballC')
-#randomForest = importr('randomForest')
-#caret = importr('caret')
-
-# Activate automatic conversion between R and pandas
-#pandas2ri.activate()
-
 # Load R model and functions
 r_code = """
-.libPaths("C:/Users/desta/AppData/Local/R/win-library/4.4")
+#.libPaths("C:/Users/desta/AppData/Local/R/win-library/4.4")
 library(tm)
 library(SnowballC)
 library(randomForest)
@@ -64,8 +56,8 @@ genre_predict = function(text){
     return(top_3_genres)
 }
 """
-r(r_code)  # Executes the R code
-genre_predict = r['genre_predict']  # Access R function
+#r(r_code)  # Executes the R code
+#genre_predict = r['genre_predict']  # Access R function
 
 # Title
 st.markdown("""
@@ -80,8 +72,14 @@ else:
 
 
 with st.spinner('Predicting genre...'):
-    result = genre_predict(user_lyrics)  # Call R function
-    st.success('Prediction complete!')
+    process1 = subprocess.Popen(["Rscript","r_call.R", user_lyrics], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    stdout,stderr = process1.communicate()
+    if process1.returncode != 0:
+        st.error(f"Error in R script: {stderr}")
+    else:
+
+        result = (stdout.strip().split('\n')[-1]).split()[-3:]
+        st.success('Prediction complete!')
 
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
