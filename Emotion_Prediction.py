@@ -49,7 +49,7 @@ with open('pipeline_logistic_emo.pkl', 'rb') as file:
     pipeline_emo = pickle.load(file)
 
 #%%
-def predict_emo(text):
+def predict_emotion(text):
     
     predicted_emo = pipeline_emo.predict_proba([text])
 
@@ -60,6 +60,6 @@ def predict_emo(text):
     
 
 # %%
-result = predict_emo("yolo etet")
+result = predict_emotion("yolo etet")
 print(result)
 # %%
