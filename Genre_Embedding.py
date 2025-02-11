@@ -43,7 +43,7 @@ with open('vectorizer_genre.pkl', 'wb') as file:
 with open('svd_genre.pkl', 'wb') as file:
     pickle.dump(pipeline["svd"], file)
 
-###################################################################
+##################### With embedding ###################
 #%%
 #Load
 with open('model_genre.pkl', 'rb') as file:
@@ -69,3 +69,25 @@ def predict_genre(text):
 result = predict_genre("yolo etet")
 print(result)
 # %%
+
+########################## Without Embedding ####################################
+#Load
+with open('vectorizer_genre_token_heavy.pkl', 'rb') as file:
+    tfidf_vectorizer = pickle.load(file)
+    
+with open('model_genre_token_heavy.pkl', 'rb') as file:
+    model = pickle.load(file)
+
+#%%
+def predict_genre_token(text):
+    
+    predicted_genre = model_genre.predict_proba(tfidf_vectorizer.transform([text]))
+    top_three_indices = predicted_genre[0].argsort()[::-1][:3]
+    predicted_genre = model_genre.classes_[top_three_indices]
+
+    return predicted_genre
+    
+
+# %%
+result = predict_genre("yolo etet")
+print(result)
