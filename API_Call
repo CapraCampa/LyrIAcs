@@ -1,0 +1,19 @@
+import os
+
+from groq import Groq
+
+client = Groq(
+    api_key="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",
+)
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Scrivi 1 verso per completare questa canzone: \n [Verse 1] \n Somebody once \n Told me \n The world is \n Gonna Row me \n\n Stick with this form of writing and add only one verse to the one i gave you",
+        }
+    ],
+    model="llama3-8b-8192",
+)
+
+print(chat_completion.choices[0].message.content)
