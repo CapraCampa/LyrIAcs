@@ -1,4 +1,5 @@
 import streamlit as st
+
 import joblib
 import pickle
 import gzip
@@ -45,11 +46,18 @@ def predict_genre(text):
     return predicted_genre
     
 
+
+st.write(f"Input: {st.session_state.first_chunks}")
+st.write(f"Emotions: {st.session_state.emotions}")
+st.write(f"Genres: {st.session_state.genres}")
+
+
 # Title
 st.markdown("""
     <h1 style='text-align: center;'>LyrIAcs</h1>
     <p style='text-align: center;'>Select your preferences</p>
 """, unsafe_allow_html=True)
+
 
 if 'user_lyrics' in st.session_state:
     user_lyrics = st.session_state.user_lyrics
@@ -66,6 +74,15 @@ with st.container(border=True):
     options = result
     genres = left.pills("Choose a **genre**:", options, selection_mode="multi")
     genres_random = right.pills("", ["Random "], selection_mode="single")
+
+# Genre Selection (single selection only)
+with st.container(border=True):
+    left, right = st.columns(2, vertical_alignment="center")
+    options = ["Pop", "Rock", "Country", "Heavy metal"]
+    genres = left.pills("Choose a **genre**:", options, selection_mode="single")
+    genres_random = right.pills("", ["Random"], selection_mode="single")
+
+
 
 # Emotions Selection (single selection only)
 with st.container(border=True):
