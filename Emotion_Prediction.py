@@ -42,6 +42,7 @@ print(classification_report(y_test, pipeline.predict(X_test)))
 # Save
 with open('pipeline_logistic_emo.pkl', 'wb') as file:
     pickle.dump(pipeline, file)
+############################### From here Load and Function ###################################################
 #%%
 #Load
 with open('pipeline_logistic_emo.pkl', 'rb') as file:
