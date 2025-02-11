@@ -11,11 +11,11 @@ class PredictionInput(BaseModel):
     text: str
 
 # Model initialization
-with open('artifacts/model_genre.pkl', 'rb') as file:
+with open('artifacts/genre/model_genre.pkl', 'rb') as file:
     model_genre = pickle.load(file)
-with open('artifacts/vectorizer_genre.pkl', 'rb') as file:
+with open('artifacts/genre/vectorizer_genre.pkl', 'rb') as file:
     tfidf_vectorizer = pickle.load(file)
-with open('artifacts/svd_genre.pkl', 'rb') as file:
+with open('artifacts/genre/svd_genre.pkl', 'rb') as file:
     svd = pickle.load(file)
 
 # Prediction endpoint

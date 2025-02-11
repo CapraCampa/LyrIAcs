@@ -1,7 +1,6 @@
 import streamlit as st
 import asyncio
 import httpx
-import streamlit as st
 
 # Asynchronous function to call the genre predictor
 async def call_genre_predictor(api_url: str, text: str):
@@ -31,13 +30,14 @@ async def call_sentiment_analyzer(api_url: str, text: str):
 # Main function to handle parallel API calls
 async def get_predictions(text: str):
     # Define model API endpoints
-    genre_predictor_url = "http://localhost:8080/predict_genre_endpoint"  # Replace with actual URL
-    sentiment_analyzer_url = "http://localhost:8081/predict_emotion_endpoint"  # Replace with actual URL
+    genre_predictor_url = "http://localhost:8000/predict_genre_endpoint"  # Replace with actual URL
+    #sentiment_analyzer_url = "http://localhost:8081/predict_emotion_endpoint"  # Replace with actual URL
 
     # Send requests in parallel
     results = await asyncio.gather(
         call_genre_predictor(genre_predictor_url, text),
-        call_sentiment_analyzer(sentiment_analyzer_url, text),
+        call_genre_predictor(genre_predictor_url, text),
+        #call_sentiment_analyzer(sentiment_analyzer_url, text),
     )
 
     # Unpack results

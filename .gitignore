@@ -1,2 +1,3 @@
 song_lyrics.csv
 venv/
+artifacts/model_genre.pkl
