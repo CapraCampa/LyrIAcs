@@ -43,6 +43,8 @@ print(classification_report(test['Genre'], pipeline.predict(test['Lyrics'])))
 with open('pipeline_logistic.pkl', 'wb') as file:
     pickle.dump(pipeline, file)
 #%%
+############################### From here Load and Function ###################################################
+
 #Load
 with open('pipeline_logistic.pkl', 'rb') as file:
     pipeline_genre = pickle.load(file)
