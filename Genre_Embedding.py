@@ -72,10 +72,10 @@ print(result)
 
 ########################## Without Embedding ####################################
 #Load
-with open('vectorizer_genre_token_heavy.pkl', 'rb') as file:
+with open('vectorizer_genre_token.pkl', 'rb') as file:
     tfidf_vectorizer = pickle.load(file)
     
-with open('model_genre_token_heavy.pkl', 'rb') as file:
+with open('model_genre_token.pkl', 'rb') as file:
     model = pickle.load(file)
 
 #%%
