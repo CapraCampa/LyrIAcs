@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: lyriacs-web
+    env: docker
+    docker:
+      buildContext: ./src/web
+      dockerfilePath: ./src/web/Dockerfile
+    branch: model-api-connection-python
+    autoDeploy: true
+    pullRequestPreviews: true
+
+  - type: web
+    name: lyriacs-api-genre
+    env: docker
+    docker:
+      buildContext: ./src/APIs/genre
+      dockerfilePath: ./src/APIs/genre/Dockerfile
+    branch: model-api-connection-python
+    autoDeploy: true
+    pullRequestPreviews: true
+
+
