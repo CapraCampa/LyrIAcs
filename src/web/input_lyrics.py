@@ -53,7 +53,7 @@ st.markdown("""
 
 # Text area
 user_lyrics = st.text_area(
-    label="input_lyrics",
+    label="input_lyrics_area",
     height=200,
     placeholder="Never gonna give you up, never gonna let you down...",
     label_visibility="hidden"

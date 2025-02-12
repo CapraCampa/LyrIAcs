@@ -1,10 +1,10 @@
 import streamlit as st
+from llama_connection.api_llama import ask_llama
 
 
-if "current_chunks" not in st.session_state:
-    st.session_state.current_chunks = ""
+# First LLM call
 if "new_chunks" not in st.session_state:
-    st.session_state.new_chunks = "Arrivederci"
+    st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
 
     
 # Title
@@ -20,7 +20,7 @@ left.markdown("""
     <p style='text-align: center;'>Your lyrics up to now</p>
 """, unsafe_allow_html=True)
 
-current_chunks = left.text_area(
+current_chunks_area = left.text_area(
     label="current_chunks",
     value=st.session_state.current_chunks,
     height=250,
@@ -28,6 +28,8 @@ current_chunks = left.text_area(
     disabled=True
 )
 
+# End generation
+# TODO
 if left.button("Save"):
     pass
 
@@ -36,16 +38,19 @@ right.markdown("""
     <p style='text-align: center;'>New chunk</p>
 """, unsafe_allow_html=True)
 
-current_chunks = right.text_area(
+new_chunks_area = right.text_area(
     label="new_chunks",
-    value="Arrivederci",
+    value=st.session_state.new_chunks,
     height=250,
     label_visibility="hidden",
 )
 
 buttons = right.columns(2, gap="large", vertical_alignment="center")
+
 if buttons[0].button("Re-generate"):
-    pass
+    st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
+    st.rerun()
+
 if buttons[1].button("Add"):
-    st.session_state.current_chunks = st.session_state.current_chunks + "\n" + st.session_state.new_chunks
+    st.session_state.current_chunks =  st.session_state.current_chunks +  "\n\n" + new_chunks_area
     st.rerun()

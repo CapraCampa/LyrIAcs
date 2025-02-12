@@ -1,5 +1,6 @@
 import streamlit as st
 
+# TODO: Error: random + genre/emotion should be able as an option
 
 # Title
 st.markdown("""
@@ -18,10 +19,13 @@ with st.container(border=True):
 # Emotions Selection (single selection only)
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
-    emotions = left.pills("Choose a **emotion**:", st.session_state.emotions, selection_mode="single",  key="emotion_selection")
-    emotions_random = right.pills("", ["Random "], selection_mode="single",  key="emotion_random")
+    emotion = left.pills("Choose a **emotion**:", st.session_state.emotions, selection_mode="single",  key="emotion_selection")
+    emotion_random = right.pills("", ["Random "], selection_mode="single",  key="emotion_random")
 
 
+# Continue
 cols = st.columns(6, vertical_alignment="center")
 if cols[-1].button("Continue"):
+    st.session_state.genre = genres
+    st.session_state.emotion = emotion
     st.switch_page("generate_lyrics.py")
