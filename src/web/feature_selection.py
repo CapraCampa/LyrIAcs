@@ -2,7 +2,7 @@ import streamlit as st
 
 st.write(f"Input: {st.session_state.first_chunks}")
 #st.write(f"Emotions: {st.session_state.emotions}")
-st.write(f"Genres: {st.session_state.genres}")
+#st.write(f"Genres: {st.session_state.genres}")
 
 
 # Title
@@ -22,8 +22,7 @@ with st.container(border=True):
 # Emotions Selection (single selection only)
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
-    options = ["Love", "Sadness", "Rage", "Happiness"]
-    emotions = left.pills("Choose a **emotion**:", options, selection_mode="multi")
+    emotions = left.pills("Choose a **emotion**:", st.session_state.emotions, selection_mode="multi")
     emotions_random = right.pills("", ["Random "], selection_mode="single")
 
 

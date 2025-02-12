@@ -37,7 +37,7 @@ To launch the **APIs**:
 
 ```
 py -m uvicorn src.APIs.genre.api_genre:app --port 8080 --reload
-py -m uvicorn models.model2.api_model2:app --port 8081 --reload
+py -m uvicorn src.APIs.emotion.api_emotion:app --port 8081 --reload
 ```
 
 To launch the **web page**:
