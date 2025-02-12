@@ -1,6 +1,7 @@
 import streamlit as st
 import asyncio
 import httpx
+from st_clickable_images import clickable_images
 
 # Asynchronous function to call the genre predictor
 async def call_genre_predictor(api_url: str, text: str):
@@ -44,10 +45,12 @@ async def get_predictions(text: str):
     return genres, emotions
 
 
+# Logo
+cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
+cols[1].image("images/logo_black.png", width=450)
 
 # Title
-st.markdown("""
-    <h1 style='text-align: center;'>LyrIAcs</h1>
+st.markdown(f"""
     <p style='text-align: center;'>Input your lyrics</p>
 """, unsafe_allow_html=True)
 

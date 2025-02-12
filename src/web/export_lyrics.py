@@ -1,9 +1,13 @@
 import streamlit as st
 import pyperclip
 
+
+# Logo
+cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
+cols[1].image("images/logo_black.png", width=450)
+
 # Title
-st.markdown("""
-    <h1 style='text-align: center;'>LyrIAcs</h1>
+st.markdown(f"""
     <p style='text-align: center;'>Enjoy your song!</p>
 """, unsafe_allow_html=True)
 

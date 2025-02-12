@@ -6,11 +6,9 @@ from llama_connection.api_llama import ask_llama
 if "new_chunks" not in st.session_state:
     st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
 
-    
-# Title
-st.markdown("""
-    <h1 style='text-align: center;'>LyrIAcs</h1>
-""", unsafe_allow_html=True)
+# Logo
+cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
+cols[1].image("images/logo_black.png", width=450)
 
 left, right = st.columns(2, gap="medium", vertical_alignment="center")
 
