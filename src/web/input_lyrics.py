@@ -90,6 +90,7 @@ if st.button("Submit"):
             else:
                 st.session_state.emotions = emotions.get('prediction', "No prediction available")
 
+            st.session_state.current_chunks = user_lyrics
             st.switch_page("feature_selection.py")
 
         else:
