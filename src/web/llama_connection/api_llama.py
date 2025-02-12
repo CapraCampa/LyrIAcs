@@ -12,7 +12,7 @@ def ask_llama(current_chunks, genre, emotion):
     chat_completion = client.chat.completions.create(
         messages = [{
             "role": "user",
-            "content": f""""You are an advanced AI trained in songwriting. Your task is to generate a new stanza (4 lines) for a song based on the following inputs:
+            "content": f""""You are an advanced AI trained in songwriting. Your task is to generate a new stanza (4 lines) for a song based on the following inputs. Return ONLY the stanza itself, no more text:
 
                 1. **Song so far:**  
                 {current_chunks}

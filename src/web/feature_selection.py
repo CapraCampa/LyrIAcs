@@ -13,14 +13,14 @@ st.markdown("""
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
     genres = left.pills("Choose a **genre**:", st.session_state.genres, selection_mode="single",  key="genre_selection")
-    genres_random = right.pills("", ["Random"], selection_mode="single",  key="genre_random")
+    genres_random = right.pills("random_genre_pill", ["Random"], selection_mode="single",  key="genre_random", label_visibility="hidden")
 
 
 # Emotions Selection (single selection only)
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
     emotion = left.pills("Choose a **emotion**:", st.session_state.emotions, selection_mode="single",  key="emotion_selection")
-    emotion_random = right.pills("", ["Random "], selection_mode="single",  key="emotion_random")
+    emotion_random = right.pills("random_emotion_pill", ["Random "], selection_mode="single",  key="emotion_random", label_visibility="hidden")
 
 
 # Continue

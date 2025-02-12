@@ -23,15 +23,14 @@ left.markdown("""
 current_chunks_area = left.text_area(
     label="current_chunks",
     value=st.session_state.current_chunks,
-    height=250,
+    height=300,
     label_visibility="hidden",
     disabled=True
 )
 
 # End generation
-# TODO
 if left.button("Save"):
-    pass
+    st.switch_page("export_lyrics.py")
 
 # New chunks
 right.markdown("""
@@ -41,7 +40,7 @@ right.markdown("""
 new_chunks_area = right.text_area(
     label="new_chunks",
     value=st.session_state.new_chunks,
-    height=250,
+    height=300,
     label_visibility="hidden",
 )
 
