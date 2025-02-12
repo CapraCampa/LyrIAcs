@@ -28,7 +28,7 @@ current_chunks_area = left.text_area(
 
 # New chunks
 right.markdown("""
-    <p style='text-align: center;'>New chunk</p>
+    <p style='text-align: center;'>New stanza</p>
 """, unsafe_allow_html=True)
 
 new_chunks_area = right.text_area(
@@ -60,3 +60,7 @@ if buttons_right[0].button("\u21BB Re-generate"):
 # End generation
 if buttons_right[1].button("Save \u2192"):
     st.switch_page("export_lyrics.py")
+
+
+st.write(f"Genre: {st.session_state.genre}")
+st.write(f"Emotion: {st.session_state.emotion}")
