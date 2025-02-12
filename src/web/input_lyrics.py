@@ -13,13 +13,13 @@ def load_models():
     return model_genre, model_emotion
 
 
-def predict_genre(text):
+def predict_genre(text, model_genre):
     predicted_probs = model_genre.predict_proba([text])
     top_three_indices = predicted_probs[0].argsort()[::-1][:3]
     predicted_genres = model_genre.classes_[top_three_indices]
     return predicted_genres.tolist()
 
-def predict_emotion(text):
+def predict_emotion(text, model_emotion):
     predicted_probs = model_emotion.predict_proba([text])
     top_three_indices = predicted_probs[0].argsort()[::-1][:3]
     predicted_emotions = model_emotion.classes_[top_three_indices]
@@ -51,7 +51,7 @@ if st.button("Submit"):
         with st.spinner("Processing..."):
             # Load models only once
             model_genre, model_emotion = load_models()
-            st.session_state.genres = predict_genre(user_lyrics)
-            st.session_state.emotions = predict_emotion(user_lyrics)
+            st.session_state.genres = predict_genre(user_lyrics,model_genre)
+            st.session_state.emotions = predict_emotion(user_lyrics,model_emotion)
         
         st.switch_page("feature_selection.py")
