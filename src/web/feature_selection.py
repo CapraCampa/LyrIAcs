@@ -23,7 +23,7 @@ st.write(f"Input: {st.session_state.current_chunks}")
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
     options = st.session_state.genres
-    genres = left.pills("Choose a **genre**:", options, selection_mode="multi",  key="genre_selection")
+    genres = left.pills("Choose a **genre**:", options, selection_mode="single",  key="genre_selection")
     genres_random = right.pills("", ["Random "], selection_mode="single",  key="genre_random")
 
 
@@ -31,7 +31,7 @@ with st.container(border=True):
 with st.container(border=True):
     left, right = st.columns(2, vertical_alignment="center")
     options = st.session_state.emotions
-    emotions = left.pills("Choose a **emotion**:", options, selection_mode="multi",  key="emotion_selection")
+    emotions = left.pills("Choose an **emotion**:", options, selection_mode="single",  key="emotion_selection")
     emotions_random = right.pills("", ["Random "], selection_mode="single",  key="emotion_random")
 
 cols = st.columns(6, vertical_alignment="center")
