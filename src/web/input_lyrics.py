@@ -63,7 +63,8 @@ if user_lyrics:
     st.session_state.user_lyrics = user_lyrics
 
 # Submit button
-if st.button("Submit"):
+cols = st.columns(5, vertical_alignment="center")
+if cols[-1].button("Submit \u2192"):
 
     # Error management
     if not user_lyrics:

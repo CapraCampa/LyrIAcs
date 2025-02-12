@@ -28,10 +28,6 @@ current_chunks_area = left.text_area(
     disabled=True
 )
 
-# End generation
-if left.button("Save"):
-    st.switch_page("export_lyrics.py")
-
 # New chunks
 right.markdown("""
     <p style='text-align: center;'>New chunk</p>
@@ -44,12 +40,25 @@ new_chunks_area = right.text_area(
     label_visibility="hidden",
 )
 
-buttons = right.columns(2, gap="large", vertical_alignment="center")
+buttons_left = left.columns(2, gap="medium", vertical_alignment="center")
+buttons_right = right.columns(2, gap="medium", vertical_alignment="center")
 
-if buttons[0].button("Re-generate"):
+# Back
+if buttons_left[0].button("\u21A9 Back"):
+    del st.session_state["new_chunks"]
+    st.session_state.current_chunks = st.session_state.first_chunks
+    st.switch_page("feature_selection.py")
+
+# Add
+if buttons_left[1].button("\uFF0B Add"):
+    st.session_state.current_chunks =  st.session_state.current_chunks +  "\n\n" + new_chunks_area
+    st.rerun()
+
+# Re-generate
+if buttons_right[0].button("\u21BB Re-generate"):
     st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
     st.rerun()
 
-if buttons[1].button("Add"):
-    st.session_state.current_chunks =  st.session_state.current_chunks +  "\n\n" + new_chunks_area
-    st.rerun()
+# End generation
+if buttons_right[1].button("Save \u2192"):
+    st.switch_page("export_lyrics.py")

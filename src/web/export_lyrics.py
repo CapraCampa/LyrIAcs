@@ -37,5 +37,8 @@ with right.container():
         mime="text/plain"
     )
      
+# Back
+if st.button("\u21A9 Back"):
+    st.switch_page("generate_lyrics.py")
 
 

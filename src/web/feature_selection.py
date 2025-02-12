@@ -1,7 +1,5 @@
 import streamlit as st
 
-# TODO: Error: random + genre/emotion should be able as an option
-
 # Title
 st.markdown("""
     <h1 style='text-align: center;'>LyrIAcs</h1>
@@ -24,8 +22,12 @@ with st.container(border=True):
 
 
 # Continue
-cols = st.columns(6, vertical_alignment="center")
-if cols[-1].button("Continue"):
+cols = st.columns(5, vertical_alignment="center")
+if cols[-1].button("Continue \u2192"):
     st.session_state.genre = genres
     st.session_state.emotion = emotion
     st.switch_page("generate_lyrics.py")
+
+# Back
+if cols[0].button("\u21A9 Back"):
+    st.switch_page("input_lyrics.py")
