@@ -58,3 +58,10 @@ docker run -p 8501:8501 lyriacs-web
 docker run -p 8000:8000 lyriacs-api-genre
 ```
 
+**Deployment**
+
+Build docker images:
+```
+docker build -t lyriacs-web -f src/web/Dockerfile .
+docker build -t lyriacs-api-genre -f src/APIs/genre/Dockerfile .
+```

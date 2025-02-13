@@ -1,7 +1,6 @@
 import streamlit as st
 import asyncio
 import httpx
-from st_clickable_images import clickable_images
 
 # Asynchronous function to call the genre predictor
 async def call_genre_predictor(api_url: str, text: str):
