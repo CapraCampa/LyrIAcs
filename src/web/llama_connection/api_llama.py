@@ -12,9 +12,13 @@ def remove_surrounding_quotes(text):
 
 def ask_llama(current_chunks, genre, emotion):
 
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY is not set!")
+    
     # Client
     client = Groq(
-        api_key="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",
+        api_key=api_key,
     )
 
     # Prompt
