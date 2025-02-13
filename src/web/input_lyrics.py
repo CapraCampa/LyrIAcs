@@ -33,8 +33,10 @@ async def call_sentiment_analyzer(api_url: str, text: str):
 # Main function to handle parallel API calls
 async def get_predictions(text: str):
     # Define model API endpoints
-    genre_predictor_url = "https://lyriacs-api-genre.onrender.com/predict_genre_endpoint"
-    sentiment_analyzer_url = "https://lyriacs-api-emotion.onrender.com/predict_emotion_endpoint"
+    #genre_predictor_url = "https://lyriacs-api-genre.onrender.com/predict_genre_endpoint"
+    #sentiment_analyzer_url = "https://lyriacs-api-emotion.onrender.com/predict_emotion_endpoint"
+    genre_predictor_url = "http://127.0.0.1:8080/predict_genre_endpoint"
+    sentiment_analyzer_url = "http://127.0.0.1:8081/predict_emotion_endpoint"
 
     # Send requests in parallel
     results = await asyncio.gather(

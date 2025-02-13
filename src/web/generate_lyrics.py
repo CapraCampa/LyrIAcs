@@ -4,6 +4,10 @@ from llama_connection.api_llama import ask_llama
 
 MAX_CHARS = 12000
 
+# Reloading page
+if len(st.session_state) == 0:
+    st.switch_page("input_lyrics.py")
+ 
 # First LLM call
 if "new_chunks" not in st.session_state:
     st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)

@@ -1,6 +1,10 @@
 import streamlit as st
 
 
+# Reloading page
+if len(st.session_state) == 0:
+    st.switch_page("input_lyrics.py")
+    
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
 cols[1].image("images/logo_black.png", width=450)
