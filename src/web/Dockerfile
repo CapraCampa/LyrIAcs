@@ -17,4 +17,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8501
 
 # Run Streamlit app
-CMD ["streamlit", "run", "web_service.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "web_service.py", "--server.port=8501", "--server.address=0.0.0.0", "--", "--genre","https://lyriacs-api-genre.onrender.com/predict_genre_endpoint", "--emotion", "https://lyriacs-api-emotion.onrender.com/predict_emotion_endpoint"]
