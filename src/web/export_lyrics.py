@@ -1,10 +1,9 @@
 import streamlit as st
-import pyperclip
 
 
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
-cols[1].image("src/web/images/logo_black.png", width=450)
+cols[1].image("images/logo_black.png", width=450)
 
 # Title
 st.markdown(f"""
@@ -21,14 +20,6 @@ final_song= left.text_area(
     label_visibility="hidden",
     disabled=True
 )
-
-# Cliboard container
-with right.container():
-    left_col, right_col = st.columns(2, gap="medium", vertical_alignment="center")
-    left_col.write("Copy to clipboard:")
-    if right_col.button("Copy"):
-        pyperclip.copy(st.session_state.current_chunks)
-
 
 # Download container
 with right.container():

@@ -1,34 +1,63 @@
 import streamlit as st
-import joblib
-import numpy as np
+import asyncio
+import httpx
 
-# Cache model loading to improve efficiency
-@st.cache_resource
-def load_models():
-    genre_model_path = "artifacts/genre/model_genre.pkl"
-    emotion_model_path = "artifacts/emotion/model_emotion.pkl"
+
+MAX_CHARS = 12000
+
+# Asynchronous function to call the genre predictor
+async def call_genre_predictor(api_url: str, text: str):
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(api_url, json={"text": text})
+            response.raise_for_status()  # Raise exception for non-2xx responses
+            return response.json()
+        except httpx.RequestError as exc:
+            return {"error": f"An error occurred while requesting: {exc}"}
+        except httpx.HTTPStatusError as exc:
+            return {"error": f"Non-success status code {exc.response.status_code}: {exc.response.text}"}
+
+# Asynchronous function to call the sentiment analyzer
+async def call_sentiment_analyzer(api_url: str, text: str):
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(api_url, json={"text": text})
+            response.raise_for_status()
+            return response.json()
+        except httpx.RequestError as exc:
+            return {"error": f"An error occurred while requesting: {exc}"}
+        except httpx.HTTPStatusError as exc:
+            return {"error": f"Non-success status code {exc.response.status_code}: {exc.response.text}"}
+
+
+# Main function to handle parallel API calls
+async def get_predictions(text: str):
+    # Define model API endpoints
+    genre_predictor_url = "https://lyriacs-api-genre.onrender.com/predict_genre_endpoint"
+    sentiment_analyzer_url = "https://lyriacs-api-emotion.onrender.com/predict_emotion_endpoint"
+
+    # Send requests in parallel
+    results = await asyncio.gather(
+        call_genre_predictor(genre_predictor_url, text),
+        call_sentiment_analyzer(sentiment_analyzer_url, text),
+    )
+
+    # Unpack results
+    genres, emotions = results
+    return genres, emotions
+
+
+def contains_non_utf8(text):
+    try:
+        text.encode('utf-8')
+        return False
+    except UnicodeEncodeError:
+        return True 
     
-    model_genre = joblib.load(genre_model_path)
-    model_emotion = joblib.load(emotion_model_path)
-    return model_genre, model_emotion
-
-
-def predict_genre(text, model_genre):
-    predicted_probs = model_genre.predict_proba([text])
-    top_three_indices = predicted_probs[0].argsort()[::-1][:3]
-    predicted_genres = model_genre.classes_[top_three_indices]
-    return predicted_genres.tolist()
-
-def predict_emotion(text, model_emotion):
-    predicted_probs = model_emotion.predict_proba([text])
-    top_three_indices = predicted_probs[0].argsort()[::-1][:3]
-    predicted_emotions = model_emotion.classes_[top_three_indices]
-    return predicted_emotions.tolist()
-
 
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
-cols[1].image("src/web/images/logo_black.png", width=450)
+cols[1].image("images/logo_black.png", width=450)
 
 # Title
 st.markdown(f"""
@@ -46,7 +75,6 @@ user_lyrics = st.text_area(
 if user_lyrics:
     st.session_state.user_lyrics = user_lyrics
 
-
 # Submit button
 cols = st.columns(5, vertical_alignment="center")
 if cols[-1].button("Submit \u2192"):
@@ -54,33 +82,34 @@ if cols[-1].button("Submit \u2192"):
     # Error management
     if not user_lyrics:
         st.warning("Please enter some text before submitting.")
-        
+
+    elif len(user_lyrics) > MAX_CHARS:
+        st.warning(f"Song too long. The maximum amount of characters is {MAX_CHARS}.")
+
+    elif contains_non_utf8(user_lyrics):
+        st.warning("Only UTF-8 characters are supported.")
+
     else:
-        if user_lyrics.strip():
+        # Save input
+        st.session_state.first_chunks = user_lyrics
+        st.session_state.song_chars = len(user_lyrics)
 
-            # Save input
-            st.session_state.first_chunks = user_lyrics
-
-            # Run the predictions
-            with st.spinner("Processing..."):
-                model_genre, model_emotion = load_models()
-                genres = predict_genre(user_lyrics,model_genre)
-                emotions = predict_emotion(user_lyrics,model_emotion)
-            
-            # Check for errors in model predictions
-            if "error" in genres:
-                st.error(f"Genre Predictor Error")
-            else:
-                st.session_state.genres = genres
-
-            if "error" in emotions:
-                st.error(f"Emotion Analyzer Error")
-            else:
-                st.session_state.emotions = emotions
-
-            st.session_state.current_chunks = user_lyrics
-            st.switch_page("feature_selection.py")
-
+        # Run the predictions asynchronously
+        with st.spinner("Processing..."):
+            genres, emotions = asyncio.run(get_predictions(user_lyrics))
+        
+        # Check for errors in API responses
+        if "error" in genres:
+            st.error(f"Genre Predictor Error: {genres['error']}")
         else:
-            st.warning("Please enter text for prediction.")
+            st.session_state.genres = genres.get('prediction', "No prediction available")
+
+        if "error" in emotions:
+            st.error(f"Emotion Analyzer Error: {emotions['error']}")
+        else:
+            st.session_state.emotions = emotions.get('prediction', "No prediction available")
+
+        st.session_state.current_chunks = user_lyrics
+        st.switch_page("feature_selection.py")
+
 
