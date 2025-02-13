@@ -1,3 +1,2 @@
-song_lyrics.csv
 venv/
-artifacts/model_genre.pkl
+__pycache__

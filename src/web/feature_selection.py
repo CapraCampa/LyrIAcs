@@ -27,15 +27,20 @@ with st.container(border=True):
 # Continue
 cols = st.columns(5, vertical_alignment="center")
 if cols[-1].button("Continue \u2192"):
-    if genre == "Random":
-        st.session_state.genre = random.choice(['Rock', 'Metal', 'Pop', 'Indie', 'Folk', 'Electronic', 'R&B', 'Jazz', 'Hip-Hop', 'Country'])
+    if genre == None:
+        st.warning("Select a genre.")
+    elif emotion == None:
+        st.warning("Select an emotion.")
     else:
-        st.session_state.genre = genre
-    if emotion == "Random":
-        st.session_state.emotion = random.choice(['Fear', 'Sad', 'Love', 'Joy', 'Surprise', 'Anger'])
-    else:
-        st.session_state.emotion = emotion
-    st.switch_page("generate_lyrics.py")
+        if genre == "Random":
+            st.session_state.genre = random.choice(['Rock', 'Metal', 'Pop', 'Indie', 'Folk', 'Electronic', 'R&B', 'Jazz', 'Hip-Hop', 'Country'])
+        else:
+            st.session_state.genre = genre
+        if emotion == "Random":
+            st.session_state.emotion = random.choice(['Fear', 'Sad', 'Love', 'Joy', 'Surprise', 'Anger'])
+        else:
+            st.session_state.emotion = emotion
+        st.switch_page("generate_lyrics.py")
 
 # Back
 if cols[0].button("\u21A9 Back"):

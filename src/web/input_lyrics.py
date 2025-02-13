@@ -2,6 +2,9 @@ import streamlit as st
 import asyncio
 import httpx
 
+
+MAX_CHARS = 12000
+
 # Asynchronous function to call the genre predictor
 async def call_genre_predictor(api_url: str, text: str):
     async with httpx.AsyncClient() as client:
@@ -44,6 +47,14 @@ async def get_predictions(text: str):
     return genres, emotions
 
 
+def contains_non_utf8(text):
+    try:
+        text.encode('utf-8')
+        return False
+    except UnicodeEncodeError:
+        return True 
+    
+
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
 cols[1].image("images/logo_black.png", width=450)
@@ -72,29 +83,33 @@ if cols[-1].button("Submit \u2192"):
     if not user_lyrics:
         st.warning("Please enter some text before submitting.")
 
+    elif len(user_lyrics) > MAX_CHARS:
+        st.warning(f"Song too long. The maximum amount of characters is {MAX_CHARS}.")
+
+    elif contains_non_utf8(user_lyrics):
+        st.warning("Only UTF-8 characters are supported.")
+
     else:
-        if user_lyrics.strip():
+        # Save input
+        st.session_state.first_chunks = user_lyrics
+        st.session_state.song_chars = len(user_lyrics)
 
-            # Save input
-            st.session_state.first_chunks = user_lyrics
-
-            # Run the predictions asynchronously
-            with st.spinner("Processing..."):
-                genres, emotions = asyncio.run(get_predictions(user_lyrics))
-            
-            # Check for errors in API responses
-            if "error" in genres:
-                st.error(f"Genre Predictor Error: {genres['error']}")
-            else:
-                st.session_state.genres = genres.get('prediction', "No prediction available")
-
-            if "error" in emotions:
-                st.error(f"Emotion Analyzer Error: {emotions['error']}")
-            else:
-                st.session_state.emotions = emotions.get('prediction', "No prediction available")
-
-            st.session_state.current_chunks = user_lyrics
-            st.switch_page("feature_selection.py")
-
+        # Run the predictions asynchronously
+        with st.spinner("Processing..."):
+            genres, emotions = asyncio.run(get_predictions(user_lyrics))
+        
+        # Check for errors in API responses
+        if "error" in genres:
+            st.error(f"Genre Predictor Error: {genres['error']}")
         else:
-            st.warning("Please enter text for prediction.")
+            st.session_state.genres = genres.get('prediction', "No prediction available")
+
+        if "error" in emotions:
+            st.error(f"Emotion Analyzer Error: {emotions['error']}")
+        else:
+            st.session_state.emotions = emotions.get('prediction', "No prediction available")
+
+        st.session_state.current_chunks = user_lyrics
+        st.switch_page("feature_selection.py")
+
+

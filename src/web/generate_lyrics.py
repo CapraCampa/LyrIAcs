@@ -2,6 +2,8 @@ import streamlit as st
 from llama_connection.api_llama import ask_llama
 
 
+MAX_CHARS = 12000
+
 # First LLM call
 if "new_chunks" not in st.session_state:
     st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
@@ -49,13 +51,22 @@ if buttons_left[0].button("\u21A9 Back"):
 
 # Add
 if buttons_left[1].button("\uFF0B Add"):
-    st.session_state.current_chunks =  st.session_state.current_chunks +  "\n\n" + new_chunks_area
-    st.rerun()
+    if st.session_state.song_chars > MAX_CHARS:
+        st.warning(f"Song too long. Limit of chunks reached.")
+
+    else:
+        st.session_state.current_chunks =  st.session_state.current_chunks +  "\n\n" + new_chunks_area
+        st.session_state.song_chars += len(new_chunks_area) + 2
+        st.rerun()
 
 # Re-generate
 if buttons_right[0].button("\u21BB Re-generate"):
-    st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
-    st.rerun()
+    if st.session_state.song_chars > MAX_CHARS:
+        st.warning(f"Song too long. Limit of chunks reached.")
+
+    else:
+        st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
+        st.rerun()
 
 # End generation
 if buttons_right[1].button("Save \u2192"):

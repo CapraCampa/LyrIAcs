@@ -1,6 +1,15 @@
 import os
 from groq import Groq
 
+def extract_after_double_newline(text):
+    parts = text.split("\n\n", 1)
+    return parts[1] if len(parts) > 1 else text
+
+def remove_surrounding_quotes(text):
+    if text.startswith('"') and text.endswith('"'):
+        return text[1:-1]
+    return text
+
 def ask_llama(current_chunks, genre, emotion):
 
     # Client
@@ -35,4 +44,7 @@ def ask_llama(current_chunks, genre, emotion):
     model="llama3-8b-8192",
     )
 
-    return chat_completion.choices[0].message.content
+    stanza = chat_completion.choices[0].message.content
+    stanza = extract_after_double_newline(stanza)
+    stanza = remove_surrounding_quotes(stanza)
+    return stanza
