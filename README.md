@@ -47,21 +47,26 @@ cd .\src\web\
 py -m streamlit run web_service.py
 ```
 
-To use the **containers**:
-```
-docker build -t lyriacs-web -f src/web/Dockerfile .
-docker build -t lyriacs-api-genre -f src/APIs/genre/Dockerfile .
-```
 
-```
-docker run -p 8501:8501 lyriacs-web
-docker run -p 8000:8000 lyriacs-api-genre
-```
+Pushing images to **DockerHub**:
 
-**Deployment**
+- Build docker images:
+    ```
+    docker build -t lyriacs-web -f src/web/Dockerfile .
+    docker build -t lyriacs-api-genre -f src/APIs/genre/Dockerfile .
+    docker build -t lyriacs-api-emotion -f src/APIs/emotion/Dockerfile .
+    ```
 
-Build docker images:
-```
-docker build -t lyriacs-web -f src/web/Dockerfile .
-docker build -t lyriacs-api-genre -f src/APIs/genre/Dockerfile .
-```
+- Tag images:
+    ```
+    docker tag lyriacs-web cvf751/lyriacs-web:latest
+    docker tag lyriacs-api-genre cvf751/lyriacs-api-genre:latest
+    docker tag lyriacs-api-emotion cvf751/lyriacs-api-emotion:latest
+    ```
+
+- Push images:
+    ```
+    docker push cvf751/lyriacs-web:latest
+    docker push cvf751/lyriacs-api-genre:latest
+    docker push cvf751/lyriacs-api-emotion:latest
+    ```

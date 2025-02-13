@@ -1,5 +1,4 @@
 import streamlit as st
-import pyperclip
 
 
 # Logo
@@ -21,14 +20,6 @@ final_song= left.text_area(
     label_visibility="hidden",
     disabled=True
 )
-
-# Cliboard container
-with right.container():
-    left_col, right_col = st.columns(2, gap="medium", vertical_alignment="center")
-    left_col.write("Copy to clipboard:")
-    if right_col.button("Copy"):
-        pyperclip.copy(st.session_state.current_chunks)
-
 
 # Download container
 with right.container():
