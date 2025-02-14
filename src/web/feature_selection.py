@@ -30,7 +30,7 @@ else:
     # Emotions Selection (single selection only)
     with st.container(border=True):
         left, right = st.columns(2, vertical_alignment="center")
-        emotion = left.pills("Choose a **emotion**:", st.session_state.emotions + ["Random"], selection_mode="single",  key="emotion_selection")
+        emotion = left.pills("Choose an **emotion**:", st.session_state.emotions + ["Random"], selection_mode="single",  key="emotion_selection")
 
 
     # Continue

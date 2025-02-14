@@ -76,7 +76,6 @@ user_lyrics = st.text_area(
 # Submit button
 cols = st.columns(5, vertical_alignment="center")
 if cols[-1].button("Submit \u2192"):
-
     # Error management
     if not user_lyrics:
         st.warning("Please enter some text before submitting.")
@@ -95,7 +94,6 @@ if cols[-1].button("Submit \u2192"):
         # Run the predictions asynchronously
         with st.spinner("Processing..."):
             genres, emotions = asyncio.run(get_predictions(user_lyrics))
-        
         # Check for errors in API responses
         if "error" in genres:
             st.error(f"Genre Predictor Error: {genres['error']}")
