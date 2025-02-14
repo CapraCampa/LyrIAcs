@@ -69,7 +69,7 @@ if buttons_right[0].button("\u21BB Re-generate"):
         st.warning(f"Song too long. Limit of chunks reached.")
 
     else:
-        st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion)
+        st.session_state.new_chunks = ask_llama(st.session_state.current_chunks, st.session_state.genre, st.session_state.emotion, st.session_state.key)
         st.rerun()
 
 # End generation
