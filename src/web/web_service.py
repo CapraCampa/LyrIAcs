@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 # Page navigation
-pg = st.navigation([st.Page("input_lyrics.py"), st.Page("feature_selection.py"), st.Page("generate_lyrics.py"), st.Page("export_lyrics.py")], position="hidden")
+pg = st.navigation([st.Page("input_lyrics.py"), st.Page("feature_selection.py"), st.Page("generate_lyrics.py"), st.Page("export_lyrics.py"), st.Page("health.py")], position="hidden")
 
 # Model location
 parser = argparse.ArgumentParser()
