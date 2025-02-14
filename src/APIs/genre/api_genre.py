@@ -19,3 +19,7 @@ with open('artifacts/genre/model_genre.pkl', 'rb') as file:
 def predict_genre_endpoint(first_chunks: PredictionInput):
     prediction = predict_genre(first_chunks.text, model_genre)
     return {"input": first_chunks.text, "prediction": prediction}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
