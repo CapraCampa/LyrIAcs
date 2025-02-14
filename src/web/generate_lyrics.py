@@ -45,17 +45,17 @@ new_chunks_area = right.text_area(
     label_visibility="hidden",
 )
 
-buttons_left = left.columns(2, gap="medium", vertical_alignment="center")
-buttons_right = right.columns(2, gap="medium", vertical_alignment="center")
-
+# buttons_left = left.columns(2, gap="medium", vertical_alignment="center")
+# buttons_right = right.columns(2, gap="medium", vertical_alignment="center")
+buttons = st.columns(4, gap="medium", vertical_alignment="center")
 # Back
-if buttons_left[0].button("\u21A9 Back"):
+if buttons[0].button("\u21A9 Back"):
     del st.session_state["new_chunks"]
     st.session_state.current_chunks = st.session_state.first_chunks
     st.switch_page("feature_selection.py")
 
 # Add
-if buttons_left[1].button("\uFF0B Add"):
+if buttons[1].button("\uFF0B Add"):
     if st.session_state.song_chars > MAX_CHARS:
         st.warning(f"Song too long. Limit of chunks reached.")
 
@@ -65,7 +65,7 @@ if buttons_left[1].button("\uFF0B Add"):
         st.rerun()
 
 # Re-generate
-if buttons_right[0].button("\u21BB Re-generate"):
+if buttons[2].button("\u21BB Re-generate"):
     if st.session_state.song_chars > MAX_CHARS:
         st.warning(f"Song too long. Limit of chunks reached.")
 
@@ -74,7 +74,7 @@ if buttons_right[0].button("\u21BB Re-generate"):
         st.rerun()
 
 # End generation
-if buttons_right[1].button("Save \u2192"):
+if buttons[3].button("Save \u2192"):
     st.switch_page("export_lyrics.py")
 
 

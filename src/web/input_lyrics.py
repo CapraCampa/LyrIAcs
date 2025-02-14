@@ -77,7 +77,7 @@ user_lyrics = st.text_area(
 cols = st.columns(5, vertical_alignment="center")
 if cols[-1].button("Submit \u2192"):
     # Error management
-    if not user_lyrics:
+    if not user_lyrics or not user_lyrics.strip():
         st.warning("Please enter some text before submitting.")
 
     elif len(user_lyrics) > MAX_CHARS:
