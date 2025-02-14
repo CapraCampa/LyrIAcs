@@ -26,8 +26,6 @@ cd ../../..
 python3 -m uvicorn src.APIs.genre.api_genre:app --port 8080 --reload &
 echo "Running genre predictive model API"
 
-
-
 # Deactivate virtual environment
 deactivate
 
@@ -84,7 +82,11 @@ pip install --no-cache-dir -r requirements.txt
 echo "Dependencies installed for web service"
 
 # Run the execution file in the background
-python3 -m streamlit run web_service.py
+if [ -n "$1" ]; then
+    python3 -m streamlit run web_service.py -- --key $1
+else
+    python3 -m streamlit run web_service.py
+fi
 echo "🚀 Running web service at http://localhost:8501"
 
 # Move back to the parent directory
