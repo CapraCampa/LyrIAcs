@@ -72,8 +72,6 @@ user_lyrics = st.text_area(
     label_visibility="hidden"
 )
 
-if user_lyrics:
-    st.session_state.user_lyrics = user_lyrics
 
 # Submit button
 cols = st.columns(5, vertical_alignment="center")

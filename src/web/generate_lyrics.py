@@ -7,6 +7,7 @@ MAX_CHARS = 12000
 # Reloading page
 if len(st.session_state) == 0:
     st.switch_page("input_lyrics.py")
+
  
 # First LLM call
 if "new_chunks" not in st.session_state:
