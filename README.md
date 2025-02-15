@@ -6,5 +6,5 @@ Things to do:
 - Save the models and the pre-process procedure as pipeline pickle files
 
 Dataset used:
-- mateibejan/multilingual-lyrics-for-genre-classification from Kaggle
+- https://www.kaggle.com/datasets/mateibejan/multilingual-lyrics-for-genre-classification from Kaggle
 - https://www.kaggle.com/datasets/kushagra3204/sentiment-and-emotion-analysis-dataset also from kaggle
