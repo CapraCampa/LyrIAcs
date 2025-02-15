@@ -61,7 +61,10 @@ cols[1].image("images/logo_black.png", width=450)
 
 # Title
 st.markdown(f"""
-    <p style='text-align: center;'>Input your lyrics</p>
+    <div style='text-align: center; max-width: 500px; margin: 0 auto; '>
+        Can't find new verses for your original song?<br> 
+        No worries, input what you have thought until now, and we'll help you continue the lyrics!
+    </div>
 """, unsafe_allow_html=True)
 
 # Text area
@@ -72,15 +75,12 @@ user_lyrics = st.text_area(
     label_visibility="hidden"
 )
 
-if user_lyrics:
-    st.session_state.user_lyrics = user_lyrics
 
 # Submit button
 cols = st.columns(5, vertical_alignment="center")
 if cols[-1].button("Submit \u2192"):
-
     # Error management
-    if not user_lyrics:
+    if not user_lyrics or not user_lyrics.strip():
         st.warning("Please enter some text before submitting.")
 
     elif len(user_lyrics) > MAX_CHARS:
@@ -97,7 +97,6 @@ if cols[-1].button("Submit \u2192"):
         # Run the predictions asynchronously
         with st.spinner("Processing..."):
             genres, emotions = asyncio.run(get_predictions(user_lyrics))
-        
         # Check for errors in API responses
         if "error" in genres:
             st.error(f"Genre Predictor Error: {genres['error']}")

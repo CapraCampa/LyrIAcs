@@ -1,55 +1,101 @@
 import unittest
-from unittest.mock import patch, MagicMock
-import numpy as np
-
+from unittest.mock import MagicMock, AsyncMock, patch
+import asyncio
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "web")))
-import input_lyrics
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'web')))
+
+def mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
+     # Mock session state as an object (not a dict)
+        mock_st = MagicMock()
+
+        columns_1 = [MagicMock(), MagicMock(), MagicMock()]  
+        columns_2 = [MagicMock(), MagicMock(), MagicMock(), MagicMock(), MagicMock()] 
+        columns_2[-1].button = mock_button
+
+        mock_columns.side_effect = [
+            columns_1,  
+            columns_2 
+        ]
+
+        mock_st.columns = mock_columns
+        mock_st.text_area = mock_text_area
+        mock_st.warning = mock_warning
+        mock_st.switch_page = mock_switch_page
+        return mock_st
 
 class TestInputLyrics(unittest.TestCase):
+    
+    
+    @patch("streamlit.switch_page")
+    @patch("streamlit.columns")
+    @patch("streamlit.text_area", side_effect=["Hello, world!"]) 
+    @patch("streamlit.warning")
+    @patch("streamlit.button", side_effect=[True, False]) 
+    def test_valid(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
 
-    @patch("input_lyrics.joblib.load")
-    def test_load_models(self, mock_load):
-        # Mock the models
-        mock_genre_model = MagicMock()
-        mock_emotion_model = MagicMock()
-        mock_load.side_effect = [mock_genre_model, mock_emotion_model]
+        mock_st = mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page)
+        
 
-        # Call the function
-        model_genre, model_emotion = input_lyrics.load_models()
+        # Patch sys.modules to inject our mock streamlit
+        with patch.dict("sys.modules", {"streamlit": mock_st}):
+            # Simulate the button behavior and the feature selection process
+            import input_lyrics  # Import after patching streamlit
+        
+        mock_switch_page.assert_called_once_with("feature_selection.py")
 
-        # Check if the models were loaded correctly
-        mock_load.assert_any_call("artifacts/genre/model_genre.pkl")
-        mock_load.assert_any_call("artifacts/emotion/model_emotion.pkl")
-        self.assertEqual(model_genre, mock_genre_model)
-        self.assertEqual(model_emotion, mock_emotion_model)
+    @patch("streamlit.switch_page")
+    @patch("streamlit.columns")
+    @patch("streamlit.text_area", side_effect=["    "]) 
+    @patch("streamlit.warning")
+    @patch("streamlit.button", side_effect=[True, False]) 
+    def test_empty_text(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
 
-    @patch("joblib.load")
-    def test_predict_genre(self, mock_load):
-        # Mock the model
-        mock_model_genre = MagicMock()
-        mock_model_genre.predict_proba.return_value = np.array([[0.1, 0.7, 0.2]])
-        mock_model_genre.classes_ = np.array(["Rock", "Pop", "Jazz"])
+        mock_st = mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page)
+        
 
-        # Call the function with the mock model
-        result = input_lyrics.predict_genre("sample text", mock_model_genre)
+        # Patch sys.modules to inject our mock streamlit
+        with patch.dict("sys.modules", {"streamlit": mock_st}):
+            # Simulate the button behavior and the feature selection process
+            import input_lyrics  # Import after patching streamlit
+        
+        mock_warning.assert_called_with("Please enter some text before submitting.")
+    
+    @patch("streamlit.switch_page")
+    @patch("streamlit.columns")
+    @patch("streamlit.text_area", side_effect=["Hello, world! \udc80"]) 
+    @patch("streamlit.warning")
+    @patch("streamlit.button", side_effect=[True, False]) 
+    def test_contains_non_utf8(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
 
-        # Check the result
-        self.assertEqual(result, ["Pop", "Jazz", "Rock"])
+        mock_st = mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page)
 
-    @patch("joblib.load")
-    def test_predict_emotion(self, mock_load):
-        # Mock the model
-        mock_model_emotion = MagicMock()
-        mock_model_emotion.predict_proba.return_value = np.array([[0.3, 0.4, 0.2]])
-        mock_model_emotion.classes_ = np.array(["Happy", "Sad", "Angry"])
 
-        # Call the function with the mock model
-        result = input_lyrics.predict_emotion("sample text", mock_model_emotion)
+        # Patch sys.modules to inject our mock streamlit
+        with patch.dict("sys.modules", {"streamlit": mock_st}):
+            # Simulate the button behavior and the feature selection process
+            import input_lyrics  # Import after patching streamlit
+        
+        mock_warning.assert_called_with("Only UTF-8 characters are supported.")
+    
 
-        # Check the result
-        self.assertEqual(result, ["Sad", "Happy", "Angry"])
+    @patch("streamlit.switch_page")
+    @patch("streamlit.columns")
+    @patch("streamlit.text_area", side_effect=["c"*13000]) 
+    @patch("streamlit.warning")
+    @patch("streamlit.button", side_effect=[True, False]) 
+    def test_max_char_limit(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
+
+        mock_st = mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page)
+
+        # Patch sys.modules to inject our mock streamlit
+        with patch.dict("sys.modules", {"streamlit": mock_st}):
+            # Simulate the button behavior and the feature selection process
+            import input_lyrics  # Import after patching streamlit
+            from input_lyrics import MAX_CHARS
+        
+        mock_warning.assert_called_with(f"Song too long. The maximum amount of characters is {MAX_CHARS}.")
+    
 
 if __name__ == "__main__":
     unittest.main()
