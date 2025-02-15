@@ -11,7 +11,7 @@ class TestAppHealth(unittest.TestCase):
             self.fail(f"Error during health check for {url}: {e}")
 
     def test_streamlit_health(self):
-        url = "https://lyriacs-web.onrender.com"
+        url = "https://lyriacs-web.onrender.com/health"
         self.health_check(url)
 
     def test_emotion_api(self):
