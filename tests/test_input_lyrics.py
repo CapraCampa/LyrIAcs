@@ -9,6 +9,9 @@ def mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_column
      # Mock session state as an object (not a dict)
         mock_st = MagicMock()
 
+        mock_st.session_state.genre_path = "https://lyriacs-api-genre.onrender.com/predict_genre_endpoint"
+        mock_st.session_state.emotion_path = "https://lyriacs-api-emotion.onrender.com/predict_emotion_endpoint"
+
         columns_1 = [MagicMock(), MagicMock(), MagicMock()]  
         columns_2 = [MagicMock(), MagicMock(), MagicMock(), MagicMock(), MagicMock()] 
         columns_2[-1].button = mock_button

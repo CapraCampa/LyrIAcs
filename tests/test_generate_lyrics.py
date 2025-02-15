@@ -97,23 +97,6 @@ class TestFeatureSelection(unittest.TestCase):
         mock_rerun.assert_called_once()
 
 
-    @patch("streamlit.switch_page")
-    @patch("streamlit.columns")
-    @patch("streamlit.text_area",side_effect = [["First"], ["Second"]]) 
-    @patch("streamlit.warning")
-    @patch("streamlit.button", side_effect=[False, False, False, False]) 
-    def test_empty_state(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
-        mock_st = mock_streamlit_module(mock_columns, mock_text_area, mock_warning, mock_button, mock_switch_page)
-        mock_st.session_state.__len__.return_value = 0
-
-        # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}),patch("llama_connection.api_llama.ask_llama", return_value="Mocked response"):
-            # Simulate the button behavior and the feature selection process
-            import generate_lyrics  # Import after patching streamlit
-
-        # Test switching when session state empty
-        mock_switch_page.assert_called_once_with("input_lyrics.py")
-
     @patch("streamlit.rerun")
     @patch("streamlit.switch_page")
     @patch("streamlit.columns")

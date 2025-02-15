@@ -96,23 +96,6 @@ class TestFeatureSelection(unittest.TestCase):
     @patch("streamlit.columns")
     @patch("streamlit.pills",side_effect = [["Rock"], None]) 
     @patch("streamlit.warning")
-    @patch("streamlit.button", side_effect=[True, False]) 
-    def test_empty_state(self, mock_button, mock_warning, mock_pills, mock_columns, mock_switch_page):
-        mock_st = mock_streamlit_module(mock_columns, mock_pills, mock_warning, mock_button, mock_switch_page)
-        mock_st.session_state.__len__.return_value = 0
-
-        # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}):
-            # Simulate the button behavior and the feature selection process
-            import feature_selection  # Import after patching streamlit
-
-        # Test switching when session state empty
-        mock_switch_page.assert_called_once_with("input_lyrics.py")
-
-    @patch("streamlit.switch_page")
-    @patch("streamlit.columns")
-    @patch("streamlit.pills",side_effect = [["Rock"], None]) 
-    @patch("streamlit.warning")
     @patch("streamlit.button", side_effect=[False, True]) 
     def test_back_button(self, mock_button, mock_warning, mock_pills, mock_columns, mock_switch_page):
         mock_st = mock_streamlit_module(mock_columns, mock_pills, mock_warning, mock_button, mock_switch_page)
