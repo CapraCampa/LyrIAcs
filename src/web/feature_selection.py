@@ -3,7 +3,7 @@ import random
 
 
 # Reloading page
-if len(st.session_state) == 0:
+if len(st.session_state) == st.session_state.args:
     st.switch_page("input_lyrics.py")
 
 if st.session_state.current_chunks != st.session_state.first_chunks:

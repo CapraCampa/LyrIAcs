@@ -19,3 +19,7 @@ with open('artifacts/emotion/model_emotion.pkl', 'rb') as file:
 def predict_emotion_endpoint(first_chunks: PredictionInput):
     prediction = predict_emotion(first_chunks.text, model_emotion)
     return {"input": first_chunks.text, "prediction": prediction}
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
