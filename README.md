@@ -2,12 +2,9 @@
 
 Things to do:
 - Create model to predict 3 genres from lyrics text.
-- Create model to predict 3 sentiments from lyrics text
-- Save the models as pickle files
+- Create model to predict 3 emotions from lyrics text
+- Save the models and the pre-process procedure as pipeline pickle files
 
-Dataset to use:
-- mateibejan/multilingual-lyrics-for-genre-classification from Kaggle (has around 10 genres)
-
-Dataset that could be used in the future for emotion classification:
-- carlosgdcj/genius-song-lyrics-with-language-information (weights at least 6 GB)
-Remark: can't use this dataset for genre classification because it contains only 5 genres
+Dataset used:
+- mateibejan/multilingual-lyrics-for-genre-classification from Kaggle
+- https://www.kaggle.com/datasets/kushagra3204/sentiment-and-emotion-analysis-dataset also from kaggle
