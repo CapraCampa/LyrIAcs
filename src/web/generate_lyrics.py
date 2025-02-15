@@ -16,7 +16,7 @@ if "new_chunks" not in st.session_state:
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
 cols[1].image("images/logo_black.png", width=450)
-  
+
 
 
 left, right = st.columns(2, gap="medium", vertical_alignment="center")
@@ -80,3 +80,10 @@ if buttons[3].button("Save \u2192"):
 
 st.write(f"Genre: {st.session_state.genre}")
 st.write(f"Emotion: {st.session_state.emotion}")
+
+st.markdown(f"""
+    <div style='text-align: center; max-width: 800px; margin: 0 auto; padding-bottom: 20px; font-size: 12px; color: gray;'>
+        Powered by <strong>Llama 3.1-8B</strong>, developed by Meta AI.
+        For more information, visit <a href='https://ai.facebook.com/llama?utm_source=chatgpt.com' target='_blank'>Meta AI's official Llama page</a>.
+    </div>
+""", unsafe_allow_html=True)
