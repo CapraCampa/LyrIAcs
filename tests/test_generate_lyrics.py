@@ -18,21 +18,19 @@ def mock_streamlit_module(mock_columns, mock_text_area, mock_warning, mock_butto
 
         columns_1 = [MagicMock(), MagicMock(), MagicMock()]  # First call returns 3 columns
         columns_2 = [MagicMock(), MagicMock()]  # Second call returns 2 columns
-        columns_3 = [MagicMock(), MagicMock()]  # Third call returns 2 columns
-        columns_4 = [MagicMock(), MagicMock()]  # Last call returns 5 columns
-
+        columns_3 = [MagicMock(), MagicMock(), MagicMock(), MagicMock()]  # Third call returns 2 columns
+        
         columns_2[0].text_area = mock_text_area
         columns_2[1].text_area = mock_text_area
         columns_3[0].button = mock_button
         columns_3[1].button = mock_button
-        columns_4[0].button = mock_button
-        columns_4[1].button = mock_button
+        columns_3[2].button = mock_button
+        columns_3[3].button = mock_button
 
         mock_columns.side_effect = [
             columns_1,  # First call returns 3 columns
             columns_2,  # Second call returns 2 columns
-            columns_3,  # Third call returns 2 columns
-            columns_4   # Fourth call returns 5 columns, with mock_button in the last column
+            columns_3,  # Third call returns 4 columns
         ]
 
         mock_st.columns = mock_columns
@@ -49,11 +47,11 @@ class TestFeatureSelection(unittest.TestCase):
     @patch("streamlit.warning")
     @patch("streamlit.button", side_effect=[True, False, False, False]) 
     def test_back_button(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
-        
+        mock_button.side_effect = [True, False, False, False]
         mock_st = mock_streamlit_module(mock_columns, mock_text_area, mock_warning, mock_button, mock_switch_page)
         
         # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}):
+        with patch.dict("sys.modules", {"streamlit": mock_st}), patch("llama_connection.api_llama.ask_llama", return_value="Mocked response"):
             # Simulate the button behavior and the feature selection process
             import generate_lyrics  # Import after patching streamlit
 
@@ -68,11 +66,12 @@ class TestFeatureSelection(unittest.TestCase):
     @patch("streamlit.warning")
     @patch("streamlit.button", side_effect=[False, False, False, True]) 
     def test_save_button(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
+        mock_button.side_effect = [False, False, False, True]
         # Mock session state as an object (not a dict)
         mock_st = mock_streamlit_module(mock_columns, mock_text_area, mock_warning, mock_button, mock_switch_page)
 
         # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}):
+        with patch.dict("sys.modules", {"streamlit": mock_st}),patch("llama_connection.api_llama.ask_llama", return_value="Mocked response"):
             # Simulate the button behavior and the feature selection process
             import generate_lyrics  # Import after patching streamlit
         
@@ -90,7 +89,7 @@ class TestFeatureSelection(unittest.TestCase):
         mock_st.rerun = mock_rerun
 
         # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}):
+        with patch.dict("sys.modules", {"streamlit": mock_st}),patch("llama_connection.api_llama.ask_llama", return_value="Mocked response"):
             # Simulate the button behavior and the feature selection process
             import generate_lyrics  # Import after patching streamlit
 
@@ -102,13 +101,13 @@ class TestFeatureSelection(unittest.TestCase):
     @patch("streamlit.columns")
     @patch("streamlit.text_area",side_effect = [["First"], ["Second"]]) 
     @patch("streamlit.warning")
-    @patch("streamlit.button", side_effect=[False, False, True, False]) 
+    @patch("streamlit.button", side_effect=[False, False, False, False]) 
     def test_empty_state(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
         mock_st = mock_streamlit_module(mock_columns, mock_text_area, mock_warning, mock_button, mock_switch_page)
         mock_st.session_state.__len__.return_value = 0
 
         # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}):
+        with patch.dict("sys.modules", {"streamlit": mock_st}),patch("llama_connection.api_llama.ask_llama", return_value="Mocked response"):
             # Simulate the button behavior and the feature selection process
             import generate_lyrics  # Import after patching streamlit
 
@@ -126,7 +125,7 @@ class TestFeatureSelection(unittest.TestCase):
         mock_st.rerun = mock_rerun
 
         # Patch sys.modules to inject our mock streamlit
-        with patch.dict("sys.modules", {"streamlit": mock_st}):
+        with patch.dict("sys.modules", {"streamlit": mock_st}),patch("llama_connection.api_llama.ask_llama", return_value="Mocked response"):
             # Simulate the button behavior and the feature selection process
             import generate_lyrics  # Import after patching streamlit
 

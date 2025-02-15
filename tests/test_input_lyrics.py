@@ -43,6 +43,23 @@ class TestInputLyrics(unittest.TestCase):
             import input_lyrics  # Import after patching streamlit
         
         mock_switch_page.assert_called_once_with("feature_selection.py")
+
+    @patch("streamlit.switch_page")
+    @patch("streamlit.columns")
+    @patch("streamlit.text_area", side_effect=["    "]) 
+    @patch("streamlit.warning")
+    @patch("streamlit.button", side_effect=[True, False]) 
+    def test_empty_text(self, mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page):
+
+        mock_st = mock_streamlit_module(mock_button, mock_warning, mock_text_area, mock_columns, mock_switch_page)
+        
+
+        # Patch sys.modules to inject our mock streamlit
+        with patch.dict("sys.modules", {"streamlit": mock_st}):
+            # Simulate the button behavior and the feature selection process
+            import input_lyrics  # Import after patching streamlit
+        
+        mock_warning.assert_called_with("Please enter some text before submitting.")
     
     @patch("streamlit.switch_page")
     @patch("streamlit.columns")

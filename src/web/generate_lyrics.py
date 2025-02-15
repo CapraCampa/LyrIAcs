@@ -16,13 +16,15 @@ if "new_chunks" not in st.session_state:
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
 cols[1].image("images/logo_black.png", width=450)
+  
+
 
 left, right = st.columns(2, gap="medium", vertical_alignment="center")
 
 
 # Current chunks
 left.markdown("""
-    <p style='text-align: center;'>Your lyrics up to now</p>
+    <div style='text-align: center; max-width: 500px; margin: 0 auto; '>Your lyrics up to now</div>
 """, unsafe_allow_html=True)
 
 current_chunks_area = left.text_area(
@@ -35,7 +37,7 @@ current_chunks_area = left.text_area(
 
 # New chunks
 right.markdown("""
-    <p style='text-align: center;'>New stanza</p>
+    <div style='text-align: center; max-width: 500px; margin: 0 auto; '>New verses based on your lyrics</div>
 """, unsafe_allow_html=True)
 
 new_chunks_area = right.text_area(
@@ -45,8 +47,6 @@ new_chunks_area = right.text_area(
     label_visibility="hidden",
 )
 
-# buttons_left = left.columns(2, gap="medium", vertical_alignment="center")
-# buttons_right = right.columns(2, gap="medium", vertical_alignment="center")
 buttons = st.columns(4, gap="medium", vertical_alignment="center")
 # Back
 if buttons[0].button("\u21A9 Back"):

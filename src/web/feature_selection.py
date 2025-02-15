@@ -18,7 +18,8 @@ else:
 
         # Title
     st.markdown(f"""
-        <p style='text-align: center;'>Select your preferences</p>
+        <div style='text-align: center; max-width: 500px; margin: 0 auto;padding-bottom: 20px;'>Select the musical genre and emotion that most resonate 
+                with your original idea or let them be chosen at random!</div>
     """, unsafe_allow_html=True)    
 
     # Genre Selection (single selection only)
