@@ -11,7 +11,7 @@ class PredictionInput(BaseModel):
     text: str
 
 # Model initialization
-with open('artifacts/emotion/model_emotion.pkl', 'rb') as file:
+with open('artifacts/emotion/pipeline_logistic_emotion.pkl', 'rb') as file:
     model_emotion = pickle.load(file)
 
 # Prediction endpoint

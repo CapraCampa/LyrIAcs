@@ -11,7 +11,7 @@ class PredictionInput(BaseModel):
     text: str
 
 # Model initialization
-with open('artifacts/genre/model_genre.pkl', 'rb') as file:
+with open('artifacts/genre/pipeline_logistic_genre.pkl', 'rb') as file:
     model_genre = pickle.load(file)
 
 # Prediction endpoint
