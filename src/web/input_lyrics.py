@@ -57,7 +57,7 @@ def contains_non_utf8(text):
 
 # Logo
 cols = st.columns([1, 5, 1], gap="large", vertical_alignment="center")
-cols[1].image("images/logo_black.png", width=450)
+cols[1].image("images/logo_black_white.png", width=450)
 
 # Title
 st.markdown(f"""
