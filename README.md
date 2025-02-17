@@ -1,72 +1,25 @@
 # LyrIAcs
 
-To use the **virtual enviroment**:
-- Create the virtual enviroment
-    ```
-    py -m venv venv
-    ```
+## Summary
+LyrIAcs is a web-based songwriting assistant that leverages machine learning and large language models (LLMs) to help users compose song lyrics. The application allows users to input an initial set of lyrics, after which it provides genre and emotion predictions to guide the songwriting process. Users can then generate new stanzas using an LLM, edit them as needed, and build a complete song.
 
-- Activate it
-    ```
-    # Windows
-    Set-ExecutionPolicy Unrestricted -Scope Process
-    venv\Scripts\activate
+The system is built using:
 
-    # Linux/Mac
-    source venv/bin/activate
-    ```
-
-- Install requirements
-    ```
-    pip install -r requirements.txt
-    ```
-
-After usage:
-- Update dependencies (if needed)
-    ```
-    pip freeze > requirements.txt
-    ```
-
-- Deactivate
-     ```
-    deactivate
-    ```   
+- Streamlit for the interactive web interface.
+- FastAPI for handling backend requests.
+- Machine learning models for genre and emotion classification.
+- Llama API for lyric generation.
+- Render for cloud deployment.
+  
+LyrIAcs provides a seamless and intuitive experience, making it easier for musicians, poets, and creatives to explore new lyrical ideas and enhance their songwriting process.
 
 
-To launch the **APIs**:
+## Execution
 
+LyrIAcs can be currently accesed at https://lyriacs-web.onrender.com.
+
+It is also possible to clone this repository and execute it locally by executing the `lysriasc.sh` bash script:
 ```
-py -m uvicorn src.APIs.genre.api_genre:app --port 8080 --reload
-py -m uvicorn src.APIs.emotion.api_emotion:app --port 8081 --reload
+./lyriacs.sh <llama api key>
 ```
-
-To launch the **web page**:
-
-```
-cd .\src\web\
-py -m streamlit run web_service.py
-```
-
-
-Pushing images to **DockerHub**:
-
-- Build docker images:
-    ```
-    docker build -t lyriacs-web -f src/web/Dockerfile .
-    docker build -t lyriacs-api-genre -f src/APIs/genre/Dockerfile .
-    docker build -t lyriacs-api-emotion -f src/APIs/emotion/Dockerfile .
-    ```
-
-- Tag images:
-    ```
-    docker tag lyriacs-web cvf751/lyriacs-web:latest
-    docker tag lyriacs-api-genre cvf751/lyriacs-api-genre:latest
-    docker tag lyriacs-api-emotion cvf751/lyriacs-api-emotion:latest
-    ```
-
-- Push images:
-    ```
-    docker push cvf751/lyriacs-web:latest
-    docker push cvf751/lyriacs-api-genre:latest
-    docker push cvf751/lyriacs-api-emotion:latest
-    ```
+`<llama api key>` must be a valid Groq API key to be able to connect to Llama model.
